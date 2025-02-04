@@ -1,0 +1,32 @@
+name: Staging CD Workflow
+
+on:
+  push:
+    branches:
+      - release 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: staging-env 
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Use Node.js 18 (Modify if needed)
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Lint Checks
+        run: npm run lint  # Ensure linting is configured in package.json
+
+      - name: Run Build
+        run: npm run build  # Build project for deployment
+
+      - name: Deploy to Staging
+        run: echo "Deploying to Staging Environment"
